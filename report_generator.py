@@ -21,9 +21,10 @@ def generate_report(message, dictionary, new_account):
 
         account = dictionary[message]
         # if the user possesed bitcoin
+        btc_holdings=0
         if(account.get_btc_held()!=0):
-             money_in_currency= account.get_btc_held()*api_connect.get_BTC_value()
-             bit_profit= ((money_in_currency-account.get_btc_money()))
+             btc_holdings= account.get_btc_held()*api_connect.get_BTC_value()
+             bit_profit= ((btc_holdings-account.get_btc_money()))
              percentage_gain= ((bit_profit/account.get_btc_money())*100)
              if(percentage_gain)>0:
                  placement="Up"
@@ -33,12 +34,13 @@ def generate_report(message, dictionary, new_account):
                  placement="Down"
              bit_output="\nBITCOIN (Currently "+api_connect.get_BTC_price()+") \n" \
                     "Current Holdings: $%.2f\n" \
-                    "Profit: $%.2f (%s %.2f%%)\n" %(money_in_currency,bit_profit,placement,abs(percentage_gain))
+                    "Profit: $%.2f (%s %.2f%%)\n" %(btc_holdings,bit_profit,placement,abs(percentage_gain))
 
         #if the user possesed etherum
+        eth_holdings=0
         if (account.get_eth_held() != 0):
-            money_in_currency = account.get_eth_held() * api_connect.get_ETH_value()
-            eth_profit = ((money_in_currency - account.get_eth_money()))
+            eth_holdings = account.get_eth_held() * api_connect.get_ETH_value()
+            eth_profit = ((eth_holdings - account.get_eth_money()))
             percentage_gain = ((eth_profit / account.get_eth_money()) * 100)
             if (percentage_gain) > 0:
                 placement = "Up"
@@ -48,12 +50,13 @@ def generate_report(message, dictionary, new_account):
                 placement = "Down"
             eth_output = "\nETHERUM (Currently "+api_connect.get_ETH_price()+") \n" \
                      "Current Holdings: $%.2f\n" \
-                     "Profit: $%.2f (%s %.2f%%)\n" % (money_in_currency, eth_profit, placement, abs(percentage_gain))
+                     "Profit: $%.2f (%s %.2f%%)\n" % (eth_holdings, eth_profit, placement, abs(percentage_gain))
 
         #if the user possed litecoin
+        ltc_holdings=0
         if (account.get_ltc_held() != 0):
-            money_in_currency = account.get_ltc_held() * api_connect.get_LIT_value()
-            lit_profit = ((money_in_currency - account.get_ltc_money()))
+            ltc_holdings = account.get_ltc_held() * api_connect.get_LIT_value()
+            lit_profit = ((ltc_holdings - account.get_ltc_money()))
             percentage_gain = ((lit_profit / account.get_ltc_money()) * 100)
             if (percentage_gain) > 0:
                 placement = "Up"
@@ -63,7 +66,10 @@ def generate_report(message, dictionary, new_account):
                 placement = "Down"
             lit_output = "\nLITECOIN (Currently "+api_connect.get_LIT_price()+") \n" \
                          "Current Holdings: $%.2f\n" \
-                         "Profit: $%.2f (%s %.2f%%)\n" % (money_in_currency, lit_profit, placement, abs(percentage_gain))
+                         "Profit: $%.2f (%s %.2f%%)\n" % (ltc_holdings, lit_profit, placement, abs(percentage_gain))
+
+        #for total holdings
+        total_holdings= "\nTotal holdings: $%.2f"%(btc_holdings+eth_holdings+ltc_holdings)
 
         #for total gains and losses
         total_profit=bit_profit+eth_profit+lit_profit
@@ -78,7 +84,7 @@ def generate_report(message, dictionary, new_account):
 
 
         #returns individual reports of each currency and total, if currency was not possesed it's output is an empty string
-        return (is_new+bit_output+eth_output+lit_output+total_output)
+        return (is_new+bit_output+eth_output+lit_output+total_holdings+total_output)
 
 
     #the account is not a new account and does not exist, gives directions on how to set up account
