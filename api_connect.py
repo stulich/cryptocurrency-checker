@@ -5,7 +5,7 @@ import warnings
 
 #supresses warnings about including date header in coinbase package
 warnings.filterwarnings("ignore")
-client = Client("api info", "api key")
+client = Client(apiKeyInfo)
 
 #bitcoin's trading price
 def get_BTC_price():
@@ -14,6 +14,14 @@ def get_BTC_price():
 #float representation of btc price
 def get_BTC_value():
     return float(client.get_sell_price(currency_pair = 'BTC-USD').get("amount"))
+
+#bitcoin cash's trading price
+def get_BCH_price():
+    return "$"+client.get_sell_price(currency_pair = 'BCH-USD').get("amount")
+
+#float representation of bch price
+def get_BCH_value():
+    return float(client.get_sell_price(currency_pair = 'BCH-USD').get("amount"))
 
 #etherum's trading price
 def get_ETH_price():
@@ -30,3 +38,5 @@ def get_LIT_price():
 #float represntation of lit trading price
 def get_LIT_value():
     return float(client.get_sell_price(currency_pair = 'LTC-USD').get("amount"))
+
+

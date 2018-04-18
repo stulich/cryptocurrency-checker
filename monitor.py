@@ -24,14 +24,14 @@ def monitorNewAccounts():
 
             #if the message is saying to create a new account with signal "0000"
             if(message[0] =="0000"):
-                if(len(message)>=8):
+                if(len(message)>=10):
                 # creates new user with an email
                      new_account=Accounts(float(message[1]),float(message[2]),float(message[3]),float(message[4]),
-                                          float(message[5]),float(message[6]), message[7])
+                                          float(message[5]),float(message[6]), float(message[7]), float(message[8]), message[9])
                # email not included
                 else:
                     new_account = Accounts(float(message[1]), float(message[2]), float(message[3]), float(message[4]),
-                                           float(message[5]), float(message[6]))
+                                           float(message[5]), float(message[6]), float(message[7]), float(message[8]))
 
                 #creates new user id, if it already exists increments until finds number that doesnt exist
                 new_id=random.randrange(1,999)
